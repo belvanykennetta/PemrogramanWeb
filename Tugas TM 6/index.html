@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <title>Academic & Postal Portal - Midnight Edition</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div id="main-app"></div>
+
+    <script>
+        const colors = {
+            bg: '#1a1a2e',
+            container: '#ffffff',
+            primary: '#2d325a',
+            accentPink: '#ff758f',
+            text: '#1a1a2e',
+            border: '#e0e0e0',
+            gray: '#f8f9fa'
+        };
+
+        const dataDosen = {
+            "Pemrosesan Bahasa Natural": "Dini Adni Navastara",
+            "Pemrograman Web": "Fajar Baskoro",
+            "Pengolahan Citra Data": "Anny Yuniarti",
+            "Grafika Komputer": "Anny Yuniarti",
+            "Deep Learning": "Dini Adni Navastara",
+            "Konsep Pengembangan Perangkat Lunak": "Sarwosri",
+            "Interaksi Manusia dan Komputer": "Siska Arifiani"
+        };
+
+        const postalData = {
+            "Jawa Timur": {
+                "Surabaya": {
+                    "Sukolilo": { "Keputih": "60111", "Menur Pumpungan": "60118", "Gebang Putih": "60117", "Klampis Ngasem": "60116", "Medokan Semampir": "60119" },
+                    "Mulyorejo": { "Kalijudan": "60114", "Kalisari": "60112", "Mulyorejo": "60115", "Sutorejo": "60113", "Manyar Sabrangan": "60116" },
+                    "Gubeng": { "Airlangga": "60286", "Barata Jaya": "60284", "Gubeng": "60281", "Kertajaya": "60282", "Mojo": "60285" },
+                    "Genengan": { "Genengan": "60151", "Sawahan": "60251" },
+                    "Wonokromo": { "Darmo": "60241", "Sawunggaling": "60242", "Wonokromo": "60243", "Jagir": "60244" },
+                    "Tegalsari": { "Kedungdoro": "60261", "Keputran": "60265", "Tegalsari": "60262", "Dr. Soetomo": "60264" },
+                    "Rungkut": { "Kali Rungkut": "60293", "Kedung Baruk": "60298", "Penjaringan Sari": "60297", "Wonorejo": "60296" },
+                    "Sambikerep": { "Lontar": "60216", "Sambikerep": "60217", "Bringin": "60218" }
+                },
+                "Sidoarjo": {
+                    "Waru": { "Warusemesta": "61256", "Bungurasih": "61256", "Kureksari": "61256", "Ngingas": "61256", "Tambak Oso": "61256" },
+                    "Taman": { "Geluran": "61257", "Kalijaten": "61257", "Sepanjang": "61257", "Wonocolo": "61257" },
+                    "Sedati": { "Betro": "61253", "Pabean": "61253", "Sedati Agung": "61253", "Sedati Gede": "61253" },
+                    "Gedangan": { "Gedangan": "61254", "Sruni": "61254", "Tebel": "61254" }
+                },
+                "Gresik": {
+                    "Kebomas": { "Dahanrejo": "61124", "Randuagung": "61121", "Sekarkurung": "61124" },
+                    "Manyar": { "Suci": "61151", "Yosowilangun": "61151", "Pongangan": "61151" },
+                    "Gresik Kota": { "Gapurosukolilo": "61111", "Kroman": "61118", "Tlogopatut": "61111" }
+                },
+                "Malang": {
+                    "Lowokwaru": { "Dinoyo": "65144", "Jatimulyo": "65141", "Tulusrejo": "65141", "Tunggulwulung": "65143" },
+                    "Klojen": { "Bareng": "65116", "Gadingkasri": "65115", "Oro-oro Dowo": "65119", "Penanggungan": "65113" },
+                    "Blimbing": { "Arjosari": "65126", "Balearjosari": "65126", "Polowijen": "65126", "Purwodadi": "65126" }
+                },
+                "Batu": {
+                    "Batu": { "Batu": "65311", "Ngaglik": "65311", "Sisir": "65314", "Temas": "65315" },
+                    "Bumiaji": { "Bumiaji": "65331", "Punton": "65332", "Tulungrejo": "65336" }
+                }
+            },
+            "DKI Jakarta": {
+                "Jakarta Selatan": {
+                    "Tebet": { "Tebet Barat": "12810", "Tebet Timur": "12820", "Kebon Baru": "12830", "Manggarai": "12850", "Menteng Dalam": "12870" },
+                    "Setiabudi": { "Kuningan Timur": "12950", "Karet": "12920", "Menteng Atas": "12960", "Pasar Manggis": "12970" },
+                    "Pasar Minggu": { "Pejaten Barat": "12510", "Ragunan": "12550", "Cilandak Timur": "12560" }
+                },
+                "Jakarta Pusat": {
+                    "Gambir": { "Cideng": "10150", "Duri Pulo": "10140", "Gambir": "10110", "Kebon Kelapa": "10120" },
+                    "Menteng": { "Cikini": "10330", "Gondangdia": "10350", "Menteng": "10310", "Kebon Sirih": "10340" }
+                }
+            }
+        };
+
+        Object.assign(document.body.style, {
+            backgroundColor: colors.bg,
+            fontFamily: "'Poppins', sans-serif",
+            margin: '0',
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center',
+            minHeight: '100vh',
+            padding: '40px'
+        });
+
+        const root = document.getElementById('main-app');
+
+        const navContainer = document.createElement('div');
+        Object.assign(navContainer.style, { display: 'flex', gap: '10px', marginBottom: '20px' });
+
+        function createTabBtn(text, isActive = false) {
+            const btn = document.createElement('button');
+            btn.innerText = text;
+            Object.assign(btn.style, {
+                padding: '10px 25px', borderRadius: '30px', border: 'none', cursor: 'pointer',
+                fontWeight: '600', fontFamily: "'Poppins', sans-serif", transition: '0.3s',
+                backgroundColor: isActive ? colors.accentPink : colors.primary, color: 'white'
+            });
+            return btn;
+        }
+
+        const tabReg = createTabBtn("Registrasi Matkul", true);
+        const tabPost = createTabBtn("Postal Code Finder");
+        navContainer.append(tabReg, tabPost);
+        root.appendChild(navContainer);
+
+        const mainCard = document.createElement('div');
+        Object.assign(mainCard.style, {
+            background: colors.container, padding: '35px', borderRadius: '25px',
+            boxShadow: '0 20px 40px rgba(0,0,0,0.4)', width: '450px', minHeight: '580px'
+        });
+        root.appendChild(mainCard);
+
+        const contentArea = document.createElement('div');
+        mainCard.appendChild(contentArea);
+
+        function createField(labelName, id, placeholder, isReadonly = false, type = "input") {
+            const wrapper = document.createElement('div');
+            wrapper.style.marginBottom = '15px';
+            const label = document.createElement('label');
+            label.innerText = labelName;
+            Object.assign(label.style, { display: 'block', fontSize: '13px', fontWeight: '600', color: colors.primary, marginBottom: '5px' });
+            
+            let field = document.createElement(type === "select" ? 'select' : 'input');
+            if (type !== "select") { field.placeholder = placeholder; field.readOnly = isReadonly; }
+            field.id = id;
+
+            Object.assign(field.style, {
+                width: '100%', padding: '12px', borderRadius: '10px', border: `1.5px solid ${colors.border}`,
+                boxSizing: 'border-box', outline: 'none', fontFamily: "'Poppins', sans-serif",
+                backgroundColor: isReadonly ? colors.gray : 'white', cursor: type === "select" ? 'pointer' : 'text'
+            });
+
+            if (!isReadonly) {
+                field.onfocus = () => field.style.borderColor = colors.accentPink;
+                field.onblur = () => field.style.borderColor = colors.border;
+            }
+
+            wrapper.append(label, field);
+            return { wrapper, field };
+        }
+
+        function showRegistration() {
+            contentArea.innerHTML = "<h2 style='color:#2d325a; text-align:center; margin-top:0;'>Registrasi Mata Kuliah</h2>";
+            const fNama = createField("Nama Lengkap", "reg-nama", "Nama Anda...");
+            const fNrp = createField("NRP", "reg-nrp", "5025...");
+            const fMatkul = createField("Mata Kuliah", "reg-matkul", "", false, "select");
+            
+            fMatkul.field.innerHTML = '<option value="">Pilih Mata Kuliah</option>';
+            Object.keys(dataDosen).forEach(m => {
+                const o = document.createElement('option'); o.value = m; o.text = m;
+                fMatkul.field.appendChild(o);
+            });
+
+            const fDosen = createField("Dosen Pengampu", "reg-dosen", "Otomatis terisi", true);
+            fMatkul.field.onchange = () => fDosen.field.value = dataDosen[fMatkul.field.value] || "";
+
+            const btn = document.createElement('button');
+            btn.innerText = "Registrasi";
+            Object.assign(btn.style, {
+                width: '100%', padding: '14px', backgroundColor: colors.primary, color: 'white',
+                border: 'none', borderRadius: '12px', fontWeight: '600', cursor: 'pointer', marginTop: '10px'
+            });
+            btn.onmouseover = () => btn.style.backgroundColor = colors.accentPink;
+            btn.onmouseout = () => btn.style.backgroundColor = colors.primary;
+
+            const histBox = document.createElement('div');
+            Object.assign(histBox.style, { marginTop: '20px', borderTop: `2px dashed ${colors.border}`, paddingTop: '15px' });
+            const histList = document.createElement('div');
+            histBox.innerHTML = "<div style='font-size:14px; font-weight:600; margin-bottom:10px;'>History Pendaftaran</div>";
+            histBox.appendChild(histList);
+
+            btn.onclick = () => {
+                if(!fNama.field.value || !fMatkul.field.value) return alert("Lengkapi data ya!");
+                const item = document.createElement('div');
+                Object.assign(item.style, { background: colors.gray, padding: '10px', borderRadius: '8px', marginBottom: '8px', fontSize: '12px', borderLeft: `4px solid ${colors.accentPink}` });
+                item.innerHTML = `<b>${fMatkul.field.value}</b><br>${fNama.field.value} (${fNrp.field.value})<br>Dosen: ${fDosen.field.value}`;
+                histList.prepend(item);
+                fNama.field.value = ""; fNrp.field.value = ""; fMatkul.field.value = ""; fDosen.field.value = "";
+            };
+
+            contentArea.append(fNama.wrapper, fNrp.wrapper, fMatkul.wrapper, fDosen.wrapper, btn, histBox);
+        }
+
+        function showPostalFinder() {
+            contentArea.innerHTML = "<h2 style='color:#2d325a; text-align:center; margin-top:0;'>Postal Code Finder</h2>";
+            const fProv = createField("Provinsi", "p-prov", "", false, "select");
+            const fKab = createField("Kabupaten / Kota", "p-kab", "", false, "select");
+            const fKec = createField("Kecamatan", "p-kec", "", false, "select");
+            const fKel = createField("Kelurahan / Desa", "p-kel", "", false, "select");
+
+            const resBox = document.createElement('div');
+            Object.assign(resBox.style, { marginTop: '20px', padding: '20px', borderRadius: '15px', backgroundColor: colors.primary, color: 'white', textAlign: 'center', display: 'none' });
+            const resVal = document.createElement('div'); resVal.style.fontSize = '32px'; resVal.style.fontWeight = '600'; resVal.style.color = colors.accentPink;
+            resBox.innerHTML = "<div style='font-size:11px; letter-spacing:1px;'>HASIL KODE POS</div>";
+            resBox.appendChild(resVal);
+
+            function setupSelect(select, data, nextSelects) {
+                select.innerHTML = '<option value="">-- Pilih --</option>';
+                if(data) {
+                    select.disabled = false;
+                    Object.keys(data).sort().forEach(k => {
+                        const o = document.createElement('option'); o.value = k; o.text = k;
+                        select.appendChild(o);
+                    });
+                } else { select.disabled = true; }
+                nextSelects.forEach(s => { s.innerHTML = '<option value="">-- Pilih --</option>'; s.disabled = true; });
+                resBox.style.display = 'none';
+            }
+
+            setupSelect(fProv.field, postalData, [fKab.field, fKec.field, fKel.field]);
+
+            fProv.field.onchange = () => setupSelect(fKab.field, postalData[fProv.field.value], [fKec.field, fKel.field]);
+            fKab.field.onchange = () => setupSelect(fKec.field, postalData[fProv.field.value][fKab.field.value], [fKel.field]);
+            fKec.field.onchange = () => setupSelect(fKel.field, postalData[fProv.field.value][fKab.field.value][fKec.field.value], []);
+            
+            fKel.field.onchange = () => {
+                if(fKel.field.value) {
+                    resVal.innerText = postalData[fProv.field.value][fKab.field.value][fKec.field.value][fKel.field.value];
+                    resBox.style.display = 'block';
+                }
+            };
+
+            contentArea.append(fProv.wrapper, fKab.wrapper, fKec.wrapper, fKel.wrapper, resBox);
+        }
+
+        tabReg.onclick = () => { tabReg.style.backgroundColor = colors.accentPink; tabPost.style.backgroundColor = colors.primary; showRegistration(); };
+        tabPost.onclick = () => { tabPost.style.backgroundColor = colors.accentPink; tabReg.style.backgroundColor = colors.primary; showPostalFinder(); };
+
+        showRegistration();
+    </script>
+</body>
+</html>
